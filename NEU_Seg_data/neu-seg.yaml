@@ -1,0 +1,12 @@
+path: C:/shiyan/UNet-NEU-SEG-main/data_wenjian
+
+train: images/train
+val: images/val
+test: images/test
+
+nc: 3
+
+names:
+  0: inclusion
+  1: patches
+  2: scratches
