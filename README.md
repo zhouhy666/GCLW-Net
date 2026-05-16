@@ -2,96 +2,94 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## 项目概述
+## Project Overview
 
-NEU-SEG 是一个基于 UNet 的钢材表面缺陷语义分割项目，支持多种改进模型。主要使用 NEU-SEG 数据集（4 类：背景、夹渣、斑块、划痕）。
+We propose a global context and boundary-aware semantic segmentation framework tailored for industrial steel surfaces. This method integrates a Global Context Atrous Spatial Pyramid Pooling module for multi-scale feature aggregation, a lightweight adaptive attention mechanism for feature enhancement, and a boundary-constrained Dice loss function to optimize defect contours. Experiments on the NEU-SEG and SSDD datasets demonstrate that the model achieves an mIoU of 81.5% and an mAP of 91.3%, outperforming mainstream segmentation networks. The proposed approach significantly improves the localization accuracy and boundary segmentation performance for low-contrast and multi-scale defects in practical industrial scenarios.
 
-## 核心命令
+## Core Commands
 
-### 训练模型
+### Training the Model
 ```bash
-# 单模型训练
-python train.py --dataset pascal --model_type UNet --batch_size 8 --epochs 75
+# Single model training
+python train.py --dataset pascal --model_type UNet --batch_size 8 --epochs 100
 
-# 指定 GPU
+# Specify GPUs
 python train.py --dataset pascal --model_type UNet --gpu-ids 0,1
 
-# 断点续训
+# Resume training from checkpoint
 python train.py --dataset pascal --model_type UNet --resume /path/to/checkpoint.pth.tar
 
-# 验证模型
+# Validate the model
 python val.py --model_type UNet --resume /path/to/model_best.pth.tar
 
-# 推理预测
+# Inference / Prediction
 python predict.py --model_type UNet --resume /path/to/model_best.pth.tar
-```
 
-### 环境验证
+##Environment Verification
 ```bash
 python env_test.py
 ```
 
-## 架构概览
-
-### 目录结构
+## Architecture Overview
+### Directory Structure
 ```
-UNet-NEU-SEG-main/
-├── blocks/              # 可插拔模块（注意力、卷积改进等）
-├── unet/                # 模型定义
-│   ├── unet_model.py    # 主模型文件（含所有改进 UNet 变种）
-│   ├── unet_parts.py    # 基础组件（DoubleConv, Down, Up, OutConv）
-│   └── model_zoo.py     # 模型注册表
-├── dataloaders/         # 数据加载
-├── utils/               # 工具（loss, metrics, saver）
-├── data_wenjian/        # NEU-SEG 数据集
-├── train.py/val.py/predict.py  # 训练/验证/推理脚本
-└── mypath.py            # 数据集路径配置
-```
-
-### 模块调用链
-1. **blocks/**: 包含 30+ 个独立模块（CBAM, SimAM, RepLKBlock, FastKAN 等），通过 `blocks/__init__.py` 动态导入
-2. **unet/unet_model.py**: 定义所有 UNet 变种模型，从 `blocks import *` 直接使用模块
-3. **unet/model_zoo.py**: 统一注册表 `MODEL_ZOO`，通过字符串名称获取模型类
-4. **train.py**: 使用 `--model_type` 参数从 `globals()` 或 `MODEL_ZOO` 获取模型类
-
-### 模型注册流程
-添加新模型的三步流程：
-1. 在 `blocks/` 下创建新模块（可选）
-2. 在 `unet/unet_model.py` 中定义模型类
-3. 在 `unet/model_zoo.py` 中注册到 `MODEL_ZOO` 字典
-
-### 数据流
-```
-mypath.py (路径配置)
-  → dataloaders/__init__.py (make_data_loader 工厂函数)
-  → datasets/mydataset.py (自定义 Dataset 类)
+GCLW-UNet/
+├── blocks/              # Pluggable modules (Attention, Convolution improvements, etc.)
+├── models/              # Model definitions
+│   ├── unet_model.py    # Main model file (contains all improved models)
+│   ├── unet_parts.py    # Basic components (DoubleConv, Down, Up, OutConv)
+│   └── model_zoo.py     # Model registry
+├── dataloaders/         # Data loading
+├── utils/               # Utilities (loss, metrics, saver)
+├── NEU_Seg_data/        # NEU-SEG dataset
+├── train.py/val.py/predict.py  # Training/Validation/Inference scripts
+└── ssddval.py           # Validation script for SSDD dataset
 ```
 
-### 训练流程
+### Module Call Chain
+1.blocks/: Contains 30+ independent modules (CBAM, SimAM, RepLKBlock, FastKAN, etc.), dynamically imported via blocks/__init__.py.
+2.unet/unet_model.py: Defines all UNet variant models, directly using modules via from blocks import *.
+3.unet/model_zoo.py: Unified registry MODEL_ZOO, retrieves model classes by string name.
+4.train.py: Uses the --model_type argument to fetch the model class from globals() or MODEL_ZOO.
+
+### Model Registration Process
+Three-step workflow to add a new model:
+1.Create a new module under blocks/ (optional).
+2.Define the model class in unet/unet_model.py.
+3.Register it in the MODEL_ZOO dictionary within unet/model_zoo.py.
+
+### Data Flow
 ```
-train.py → Trainer 类
-  → training(epoch): 混合精度训练 (AMP) + tqdm 进度条
-  → validation(epoch): Evaluator 计算 mIoU/mPA/Dice
-  → Saver: 保存 checkpoint 和 TensorBoard 日志
+mypath.py (Path configuration)
+  → dataloaders/__init__.py (make_data_loader factory function)
+  → datasets/mydataset.py (Custom Dataset class)
 ```
 
-## 关键配置
+### Training Pipeline
+```
+train.py → Trainer class
+  → training(epoch): Mixed precision training (AMP) + tqdm progress bar
+  → validation(epoch): Evaluator calculates mIoU/mPA/Dice
+  → Saver: Saves checkpoints and TensorBoard logs
+```
 
-### 数据集配置 (mypath.py)
-- `pascal` → `data_wenjian/` (NEU-SEG)
-- `mydataset` → `data_magnetic/` (MagneticTile)
+## Key Configurations
 
-### 损失函数
-- CrossEntropy (默认)
-- Focal Loss
-- Dice Loss
+### Dataset Configuration
+-NEU_Seg_data/ (NEU-SEG)
+-SSDD_data/ (SSDD)
 
-### 学习率调度器
-- poly (默认)
+### Loss Functions
+-CrossEntropy (Default)
+-Focal Loss
+-Dice Loss
+
+### Learning Rate Scheduler
+- poly (Default)
 - step
-- cos (余弦退火)
+- cos (Cosine annealing)
 
-## 已支持模型
-查看 `unet/model_zoo.py` 的 `MODEL_ZOO` 字典，包含：
-- UNet 基线及变种（UNetCBAM, UNetSimAM, UNet_RepLKBlock_FastKAN 等）
-- 对比模型（UNetPP, DeepLabV3Plus, SegNet, PSPNet, BiSeNet, OCNet等）
+## Supported Models
+- Check the MODEL_ZOO dictionary in unet/model_zoo.py, which includes:
+- UNet baseline and variants
+- Comparison models (UNetPP, DeepLabV3Plus, SegNet, PSPNet, BiSeNet, OCNet, etc.)
