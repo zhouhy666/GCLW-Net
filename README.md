@@ -1,7 +1,4 @@
 # CLAUDE.md
-
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
 ## Project Overview
 
 We propose a global context and boundary-aware semantic segmentation framework tailored for industrial steel surfaces. This method integrates a Global Context Atrous Spatial Pyramid Pooling module for multi-scale feature aggregation, a lightweight adaptive attention mechanism for feature enhancement, and a boundary-constrained Dice loss function to optimize defect contours. Experiments on the NEU-SEG and SSDD datasets demonstrate that the model achieves an mIoU of 81.5% and an mAP of 91.3%, outperforming mainstream segmentation networks. The proposed approach significantly improves the localization accuracy and boundary segmentation performance for low-contrast and multi-scale defects in practical industrial scenarios.
