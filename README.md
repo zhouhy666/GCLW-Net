@@ -6,6 +6,11 @@ We propose a global context and boundary-aware semantic segmentation framework t
 ## Core Commands
 ### Environment configuration
 Please refer to requirements.txt.
+
+### Dataset acquisition
+NEU-Sge：https://github.com/DHW-Master/NEU_Seg
+SSDD（Severstal Steel Defect Detection）:https://www.kaggle.com/c/severstal-steel-defect-detection
+
 ### Training the Model
 ```bash
 # Single model training
