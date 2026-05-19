@@ -79,13 +79,13 @@ train.py → Trainer class
 ## Key Configurations
 
 ### Dataset Configuration
-  -NEU_Seg_data/ (NEU-SEG)
-  -SSDD_data/ (SSDD)
+  - NEU_Seg_data/ (NEU-SEG)
+  - SSDD_data/ (SSDD)
 
 ### Loss Functions
-  -CrossEntropy (Default)
-  -Focal Loss
-  -Dice Loss
+  - CrossEntropy (Default)
+  - Focal Loss
+  - Dice Loss
 
 ### Learning Rate Scheduler
 - poly (Default)
