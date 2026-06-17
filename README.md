@@ -50,7 +50,7 @@ GCLW-UNet/
 ```
 
 ### Module Call Chain
-1.blocks/: Contains 30+ independent modules (CBAM, SimAM, RepLKBlock, FastKAN, etc.), dynamically imported via blocks/__init__.py.
+1.blocks/: Contains independent modules (CBAM,LW-CBAM, ASPP,GC-ASPPM, etc.), dynamically imported via blocks/__init__.py.
 2.unet/unet_model.py: Defines all UNet variant models, directly using modules via from blocks import *.
 3.unet/model_zoo.py: Unified registry MODEL_ZOO, retrieves model classes by string name.
 4.train.py: Uses the --model_type argument to fetch the model class from globals() or MODEL_ZOO.
