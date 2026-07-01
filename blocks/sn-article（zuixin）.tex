@@ -1,0 +1,876 @@
+%Version 3.1 December 2024
+% See section 11 of the User Manual for version history
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                                 %%
+%% Please do not use \input{...} to include other tex files.       %%
+%% Submit your LaTeX manuscript as one .tex document.              %%
+%%                                                                 %%
+%% All additional figures and files should be attached             %%
+%% separately and not embedded in the \TeX\ document itself.       %%
+%%                                                                 %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%\documentclass[referee,sn-basic]{sn-jnl}% referee option is meant for double line spacing
+
+%%=======================================================%%
+%% to print line numbers in the margin use lineno option %%
+%%=======================================================%%
+
+%%\documentclass[lineno,pdflatex,sn-basic]{sn-jnl}% Basic Springer Nature Reference Style/Chemistry Reference Style
+
+%%=========================================================================================%%
+%% the documentclass is set to pdflatex as default. You can delete it if not appropriate.  %%
+%%=========================================================================================%%
+
+%%\documentclass[sn-basic]{sn-jnl}% Basic Springer Nature Reference Style/Chemistry Reference Style
+
+%%Note: the following reference styles support Namedate and Numbered referencing. By default the style follows the most common style. To switch between the options you can add or remove Numbered in the optional parenthesis. 
+%%The option is available for: sn-basic.bst, sn-chicago.bst%  
+ 
+%%\documentclass[pdflatex,sn-nature]{sn-jnl}% Style for submissions to Nature Portfolio journals
+%%\documentclass[pdflatex,sn-basic]{sn-jnl}% Basic Springer Nature Reference Style/Chemistry Reference Style
+\documentclass[sn-basic]{sn-jnl}
+
+%%%% Standard Packages
+\usepackage{graphicx}%
+\usepackage{multirow}%
+\usepackage{amsmath,amssymb,amsfonts}%
+\usepackage{amsthm}%
+\usepackage{mathrsfs}%
+\usepackage[title]{appendix}%
+\usepackage{xcolor}%
+\usepackage{textcomp}%
+\usepackage{manyfoot}%
+\usepackage{booktabs}%
+\usepackage{algorithm}%
+\usepackage{algorithmicx}%
+\usepackage{algpseudocode}%
+\usepackage{listings}%
+\usepackage{indentfirst}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{natbib}
+\setcitestyle{numbers,square}
+
+%% as per the requirement new theorem styles can be included as shown below
+\theoremstyle{thmstyleone}%
+\newtheorem{theorem}{Theorem}%
+\newtheorem{proposition}[theorem]{Proposition}%
+
+\theoremstyle{thmstyletwo}%
+\newtheorem{example}{Example}%
+\newtheorem{remark}{Remark}%
+
+\theoremstyle{thmstylethree}%
+\newtheorem{definition}{Definition}%
+
+\raggedbottom
+
+
+
+\begin{document}
+
+\title[Article Title]{GCLW-Net: Global Context and Boundary-Aware Network for Steel Surface Defect Semantic Segmentation}
+
+\author[1,2]{\fnm{Huayong} \sur{Zhou}}
+\author*[1,2]{\fnm{Liang} \sur{Lei}}\email{lianglei@cqust.edu.cn}
+\author[1,2]{\fnm{Yaxuan} \sur{Li}}
+\author[1,2]{\fnm{Shanwen} \sur{Xu}}
+\author[1,2]{\fnm{Xuehan} \sur{Liu}}
+\author[1,2]{\fnm{Jin} \sur{Zhao}}
+
+
+
+\affil[1]{\orgdiv{School of Intelligent Technology and Engineering}, \orgname{Chongqing University of Science and Technology}, \orgaddress{\city{Chongqing}, \postcode{401331}, \country{China}}}
+\affil[2]{\orgdiv{Chongqing Key Laboratory of Intelligent Connected Vehicles and Safety}, \orgname{Chongqing University of Science and Technology}, \orgaddress{\city{Chongqing}, \postcode{401331}, \country{China}}}
+
+
+
+%%==================================%%
+%% Sample for unstructured abstract %%
+%%==================================%%
+
+\abstract{ Existing steel surface defect segmentation methods ‌are confronted with‌ three key issues—low segmentation accuracy, frequent false detections, and blurred defect boundaries—rooted in complex surface textures, low contrast between defects and background, and weak edge definition. To address thses issues, in this article, we propose a global context and boundary-aware network (GCLW-Net) for steel surface defect segmentation. Specifically, GCLW-Net proposes a global context dilated atrous spatial pyramid pooling module to aggregate multi-scale features and puts forward a lightweight adaptive attention mechanism to enhance the robustness of features. Furthermore, a boundary-constrained Dice loss is designed in GCLW-Net to refine defect contours.Experiments on NEU-seg and SSDD datasets show our model achieves 81.5\% mIoU and 91.3\% mAP, outperforming mainstream segmentation networks. The approach improves localization and boundary precision for low-contrast and multi-scale defects in real industrial scenarios.}
+
+%%================================%%
+%% Sample for structured abstract %%
+%%================================%%
+
+% \abstract{\textbf{Purpose:} The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. The abstract must not include subheadings (unless expressly permitted in the journal's Instructions to Authors), equations or citations. As a guide the abstract should not exceed 200 words. Most journals do not set a hard limit however authors are advised to check the author instructions for the journal they are submitting to.
+% 
+% \textbf{Methods:} The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. The abstract must not include subheadings (unless expressly permitted in the journal's Instructions to Authors), equations or citations. As a guide the abstract should not exceed 200 words. Most journals do not set a hard limit however authors are advised to check the author instructions for the journal they are submitting to.
+% 
+% \textbf{Results:} The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. The abstract must not include subheadings (unless expressly permitted in the journal's Instructions to Authors), equations or citations. As a guide the abstract should not exceed 200 words. Most journals do not set a hard limit however authors are advised to check the author instructions for the journal they are submitting to.
+% 
+% \textbf{Conclusion:} The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. The abstract must not include subheadings (unless expressly permitted in the journal's Instructions to Authors), equations or citations. As a guide the abstract should not exceed 200 words. Most journals do not set a hard limit however authors are advised to check the author instructions for the journal they are submitting to.}
+
+\keywords{Steel Surface Defect;Semantic Segmentation; Global Context; Boundary-Aware; Attention Mechanism;Dice Loss}
+
+%%\pacs[JEL Classification]{D8, H51}
+
+%%\pacs[MSC Classification]{35A01, 65L10, 65L12, 65L20, 65L70}
+
+\maketitle
+
+\section{Introduction}
+\subsection{Problem definition}
+Steel is one of the most important materials in modern industrial manufacturing and is extensively used in construction, transportation, shipbuilding, and mechanical engineering. During the production process, factors such as equipment wear, process fluctuations, and raw material inconsistencies may introduce various surface defects, including micro-cracks, patches, scratches, and inclusions. These defects not only degrade the appearance quality of steel products but may also impair their structural integrity, corrosion resistance, and mechanical performance, thereby affecting service reliability and operational safety. Consequently, timely and accurate defect inspection is essential for ensuring product quality and reducing production losses \cite{Liu2025Global}. Driven by the rapid progress of deep learning, automated vision-based surface inspection has become the dominant paradigm in modern manufacturing, substantially improving the accuracy and robustness of defect recognition under complex industrial conditions \cite{Luo2024CDDNet,Liu2024Deep}.
+
+Traditional defect detection methods and object detection-based approaches mainly focus on identifying the presence and approximate location of defects. However, they often fail to provide detailed information regarding defect morphology, size, area, and boundary distribution. In practical industrial scenarios, such quantitative information is crucial for defect severity assessment, quality grading, process optimization, and maintenance decision-making. Compared with conventional detection methods, semantic segmentation enables pixel-level classification of defect regions, allowing precise extraction of defect contours and accurate measurement of geometric attributes such as area, shape, and spatial distribution. Benefiting from advances in fully convolutional architectures and transformer-based models, deep learning-driven semantic segmentation has achieved remarkable progress in pixel-level scene understanding and fine-grained structure delineation \cite{Minaee2022Image,Xie2021SegFormer,Li2024Transformer}. These fine-grained defect characteristics provide valuable support for subsequent quantitative analysis and intelligent quality evaluation by engineers and production managers. Therefore, developing an efficient and accurate semantic segmentation method for steel surface defects is of great significance for achieving automated quality inspection and promoting intelligent manufacturing in modern steel production systems.
+
+\subsection{Existing problems}
+Despite the remarkable progress achieved by deep learning-based steel surface defect segmentation methods, several challenges remain unresolved. Existing approaches are generally confronted with three critical issues: low segmentation accuracy, frequent false detections, and blurred defect boundaries. These limitations mainly stem from the complex texture characteristics of steel surfaces, the low contrast between defects and the background, and the weak edge information of certain defect categories. Specifically, intricate background textures often interfere with feature extraction, making it difficult for models to distinguish defect regions from normal surface patterns. In addition, defects with low visual contrast and severe class imbalance tend to be overlooked or incorrectly classified, leading to missed detections and false alarms. Furthermore, the boundaries of many defects are ambiguous and irregular, which hinders accurate delineation at the pixel level and results in incomplete or imprecise segmentation. From a methodological perspective, these problems reflect four underlying bottlenecks: insufficient multi-scale receptive-field modeling, weak discriminative visual feature representation, limited sensitivity to boundary gradient information, and inadequate optimization for sparse and imbalanced defect regions. Consequently, improving contextual feature modeling, enhancing defect-background discrimination, and preserving boundary details remain key research challenges in steel surface defect segmentation.
+
+\subsection{Major contributions}
+To address the above issues, this paper proposes GCLW-Net, a global context and boundary-aware semantic segmentation framework that jointly optimizes multi-scale context extraction, adaptive feature selection, and boundary-sensitive supervision. The major contributions of this work are summarized as follows:
+\begin{enumerate}
+    \item A Global Context Dilated Atrous Spatial Pyramid Pooling (GC-ASPP) module is proposed to optimize multi-scale receptive-field modeling and visual feature representation. By constructing parallel atrous branches with dilation rates of 6, 12, and 18, GC-ASPP establishes a progressive receptive-field hierarchy that captures local contours, medium-scale defect structures, and broader semantic context without sacrificing spatial resolution. Meanwhile, a global average pooling branch is introduced to provide image-level semantic priors, and a residual fusion strategy is adopted to inject global context into each atrous branch while preserving scale-specific texture and boundary responses. This design alleviates the limited contextual perception of conventional U-Net bottlenecks and enhances collaborative modeling of local fine-grained and global semantic features for multi-scale steel defects.
+    \item A Lightweight Weighted Convolutional Block Attention Module (LW-CBAM) is developed to strengthen discriminative visual feature modeling under complex industrial backgrounds. Unlike fixed attention fusion, LW-CBAM introduces learnable modulation factors $\alpha$ and $\beta$ to adaptively balance channel-wise semantic selection and spatial-wise saliency enhancement across feature hierarchies. Theoretically, this mechanism improves the network's ability to amplify defect-related responses and suppress redundant background activations, thereby enhancing feature separability for low-contrast defects and reducing false detections caused by complex surface textures.
+    \item A Boundary-Constrained Dice (BCD) Loss is designed to jointly address boundary gradient perception and class imbalance suppression during optimization. On the one hand, an explicit boundary term derived from the gradient difference between predicted and ground-truth maps strengthens the model's sensitivity to contour variations and blurred edges. On the other hand, the combination of cross-entropy and Dice losses provides complementary supervision at the pixel and region levels, improving the recovery of sparse, small-scale, and minority defect categories. By integrating pixel classification, region overlap, and boundary structure constraints, BCD Loss establishes a more comprehensive optimization objective for steel surface defect segmentation.
+\end{enumerate}
+The remainder of this paper is organized as follows. Section~2 reviews related works on steel surface defect detection and semantic segmentation. Section~3 presents the proposed GCLW-Net framework, including GC-ASPP, LW-CBAM, and BCD Loss. Section~4 describes the datasets, evaluation metrics, experimental settings, ablation studies, and comparative experiments. Section~5 summarizes the conclusions and discusses the limitations and future research directions.
+
+
+\section{Related works}
+Steel surface defects, such as cracks, inclusions, patches, and scratches, are inevitably generated during the manufacturing process. These defects can significantly degrade product quality and reliability, leading to increased production costs and potential safety risks in industrial applications. Therefore, developing robust methods that can not only accurately identify defect categories but also precisely delineate defect boundaries and locations has become a critical challenge in intelligent manufacturing. In this section, we provide a brief introduction to existing related works.
+\subsection{Object Detection}
+Recent advances in deep learning have significantly improved the automation and accuracy of steel surface defect inspection. Object detection methods have become one of the mainstream solutions due to their ability to efficiently identify defect categories and locations. Representative frameworks include the YOLO series and Faster R-CNN, which have demonstrated remarkable performance in industrial defect detection tasks \cite{Jiang2022Review,Terven2023Comprehensive,Tian2025Faster}.
+
+To improve detection performance in complex scenarios, numerous enhanced object detection models have been proposed. Zhao et al. \cite{Zhao2024DETRs} proposed RT-DETR, the first real-time end-to-end detector, which designs an efficient hybrid encoder to decouple intra-scale interaction and cross-scale fusion and adopts an uncertainty-minimal query selection strategy, thereby eliminating the non-maximum suppression (NMS) post-processing while achieving a superior speed–accuracy trade-off. Hou et al. \cite{Hou2024Salience} developed Salience DETR, which introduces hierarchical salience filtering refinement to perform transformer encoding only on filtered discriminative queries, alleviating scale bias and computational redundancy and demonstrating notable gains on challenging defect detection datasets dominated by low-contrast and small-scale objects. Zhang et al. \cite{Zhang2023Dense} presented the Dense Distinct Query (DDQ) paradigm, which first lays dense queries to guarantee high recall and then selects distinct ones for one-to-one label assignment, effectively combining the advantages of traditional and end-to-end detectors and improving robustness in dense and crowded scenes. Wu et al. \cite{Wu2025Efficient} proposed an improved YOLOv7 model based on a Feature Preservation Block (FPB) and a Location-Aware Feature Pyramid Network (LAFPN), achieving superior performance in detecting dense and small-scale steel defects.
+
+Although these object detection approaches have achieved promising results, they rely on bounding-box localization and can only provide coarse defect positions. The predicted bounding boxes often contain substantial background regions and fail to accurately describe defect morphology, area, and boundary information. Consequently, they are insufficient for fine-grained defect analysis and quantitative quality assessment in industrial production environments \cite{Ashrafi2025Steel}.
+\subsection{Semantic Segmentation}
+Compared with object detection methods, semantic segmentation techniques provide pixel-level classification and can accurately characterize defect contours, shapes, and spatial distributions. Therefore, they have attracted increasing attention in steel surface defect inspection.
+
+The Fully Convolutional Network (FCN) pioneered end-to-end semantic segmentation by replacing fully connected layers with convolutional operations \cite{Long2015Fully}. However, FCN suffers from limited contextual modeling capability and inadequate boundary preservation. To address these shortcomings, the DeepLab series introduced atrous convolution and Atrous Spatial Pyramid Pooling (ASPP), significantly improving multi-scale contextual feature extraction \cite{Chen2018DeepLab}. Nevertheless, the complex backbone structures adopted by DeepLab lead to high computational cost and limit its deployment in resource-constrained industrial applications.
+
+To balance segmentation accuracy and computational efficiency, researchers have proposed various improved semantic segmentation models. Zhang et al. \cite{Zhang2023Semantic} introduced a multi-scale attention feature fusion mechanism combined with class-weighting and boundary-aware loss functions, effectively enhancing defect feature representation while maintaining low computational overhead. Huang et al. \cite{Huang2025Multiscale} proposed MAPTNet, which integrates adaptive prototype Transformers and hierarchical feature fusion to achieve few-shot steel defect segmentation with strong cross-dataset generalization capability. Zhao et al. \cite{Zhao2025Cross} developed CSCLDAN, a cross-supervised contrastive learning framework that combines CNN and Transformer architectures to alleviate domain shift through consistency-based contrastive learning and pixel-level feature alignment. More recently, Shan et al. \cite{Shan2025RSM} proposed RSM-YOLOv11, which incorporates SPD-Conv, RepBlock, and MCASAM to improve detail preservation, feature representation, and multi-scale information modeling, achieving excellent segmentation performance while maintaining a lightweight architecture.
+\subsection{Boundary-Aware and Multi-Scale Feature Learning Methods}
+Accurate segmentation of steel surface defects largely depends on effective multi-scale feature representation and precise boundary modeling. Consequently, boundary-aware learning and multi-scale feature aggregation have become important research directions in recent years.
+
+Lei et al. \cite{Lei2025BENet} proposed BENet, which utilizes a Boundary Extraction Module (BEM) and a Boundary Adaptation Layer (BAL) to enhance boundary perception and detail preservation. Furthermore, a Striped Mixed Aggregation Pyramid Pooling Module (SMAPPM) was introduced to improve the segmentation performance of elongated structures and small targets. Although these methods have achieved notable improvements, accurately segmenting defects under complex textures, low contrast conditions, and ambiguous boundaries remains a challenging problem.
+
+In practical steel inspection scenarios, complex background textures may interfere with feature extraction, while low contrast between defects and the surrounding surface can cause feature confusion\cite{Krithika2022Review}. In addition, blurry defect boundaries often result in inaccurate contour prediction and missed segmentation. Therefore, designing a lightweight segmentation framework capable of effectively integrating global contextual information, enhancing feature selection, and preserving boundary details remains an important research challenge.
+    
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\linewidth,height=0.9\textheight, keepaspectratio]{fig1.jpg}
+\caption{Architecture of the proposed GCLW-Net.}
+\label{fig:gclw-unet}
+\end{figure}
+
+\section{Methodology}
+
+\subsection{Overall Architecture}
+
+This study proposes a global context and boundary-aware semantic segmentation framework (GCLW-Net) for industrial steel surface defect segmentation, whose overall network architecture is illustrated in Fig.~\ref{fig:gclw-unet}. The proposed framework adopts a symmetric encoder–decoder topology built upon the U-Net backbone and is augmented with three dedicated components: a Lightweight Weighted Convolutional Block Attention Module (LW-CBAM) embedded in the encoding stage, a Global Context Atrous Spatial Pyramid Pooling (GC-ASPP) module inserted at the bottleneck between the encoder and decoder, and a Boundary-Constrained Dice (BCD) loss employed for end-to-end optimization. These components are designed to jointly strengthen multi-scale context modeling, discriminative feature selection, and boundary-aware supervision.
+
+Given a single-channel grayscale steel surface image $\mathbf{I}\in\mathbb{R}^{H\times W\times 1}$ as input, the encoder progressively extracts hierarchical features through four stages (E1–E4). Each stage comprises consecutive $3\times3$ Conv–BN–ReLU operations followed by a $2\times2$ max-pooling for downsampling, yielding feature maps with spatial resolutions of $H\times W$, $\tfrac{H}{2}\times\tfrac{W}{2}$, $\tfrac{H}{4}\times\tfrac{W}{4}$, and $\tfrac{H}{8}\times\tfrac{W}{8}$, and channel dimensions of 64, 128, 256, and 512, respectively. At each encoder stage, the LW-CBAM recalibrates the extracted features along both the channel and spatial dimensions, emphasizing defect-relevant responses while suppressing background texture interference before the features are forwarded through the skip connections.
+
+At the network bottleneck, the deepest encoder feature $\mathbf{F}_{4}\in\mathbb{R}^{\frac{H}{8}\times\frac{W}{8}\times 512}$ is fed into the GC-ASPP module, which aggregates multi-scale contextual information through four parallel atrous convolution branches with dilation rates of 1, 6, 12, and 18, together with a global average pooling branch that provides image-level semantic priors. This design substantially enlarges the receptive field and injects global context into each branch while preserving the spatial resolution of the bottleneck representation.
+
+The decoder symmetrically restores the spatial resolution through four stages (D4–D1). At each stage, the feature map is upsampled by a factor of two via bilinear interpolation and concatenated with the corresponding LW-CBAM-enhanced encoder features through skip connections, followed by a $3\times3$ convolution for feature fusion. The channel dimension is gradually reduced from 512 back to 64, and the spatial resolution is progressively recovered to the original $H\times W$. Finally, a $1\times1$ convolution maps the fused features to the prediction map $\mathbf{P}\in\mathbb{R}^{H\times W\times C}$, where $C$ denotes the number of defect categories, producing pixel-wise segmentation results. During training, the entire network is optimized end-to-end with the proposed BCD loss, which jointly constrains pixel-level classification, region overlap, and boundary structure. The functional roles of the three core components are detailed as follows.
+
+First, GC-ASPP is designed to strengthen multi-scale contextual representation at the bottleneck. By arranging parallel atrous convolution branches with complementary dilation rates alongside a global average pooling pathway, it jointly encodes local fine-grained structures and image-level semantics, substantially improving the perception of defects with large scale variations.
+
+Second, LW-CBAM is embedded into each encoder stage to enhance feature discriminability. In contrast to fixed attention fusion, it introduces learnable modulation factors that adaptively balance channel-wise semantic selection and spatial-wise saliency enhancement across feature hierarchies, amplifying defect-relevant responses while suppressing redundant background activations.
+
+Third, the BCD loss augments the conventional Cross-Entropy Loss \cite{Mao2023Cross} and Dice Loss \cite{Kato2024Adaptive} with an explicit boundary constraint term. By jointly optimizing pixel-wise classification, region overlap, and boundary structure, it sharpens the model’s sensitivity to defect contours and fine-grained structures, yielding more stable and precise segmentation under complex industrial scenarios.
+
+
+\subsection{GC-ASPP}
+
+Steel surface defects in real industrial scenarios exhibit large scale variations and complex morphologies, and segmentation networks are easily distracted by irrelevant background textures during feature extraction. Although the vanilla U-Net achieves multi-level feature extraction and fusion through its encoder–decoder structure, its bottleneck possesses a limited capability to model multi-scale contextual information, making it difficult to capture the semantic relationships among defects of different scales. In complex backgrounds or scenes with multiple coexisting defects, this limitation manifests as insufficient feature representation and blurred defect boundaries, which degrades the recognition of fine-grained defects \cite{Ma2025ELA}.
+
+To address these issues, the proposed GC-ASPP module is inserted between the encoder and decoder to enhance multi-scale feature extraction and contextual modeling \cite{Abian2025Atrous}. GC-ASPP adopts a multi-branch atrous convolution structure in which parallel convolutions with different dilation rates are applied to the input features, extracting complementary cues under receptive fields of different sizes that are subsequently integrated through an effective fusion strategy.
+
+In parallel, a global average pooling branch is incorporated to capture image-level contextual information, compensating for the inherent locality of atrous convolution in global semantic modeling. By fusing multi-scale atrous features with this global context, GC-ASPP substantially enlarges the receptive field without sacrificing feature resolution, enabling the model to capture spatial relationships among defects at different scales and to represent complex defect structures more faithfully. 
+% The architecture of the GC-ASPP module is illustrated in Fig.~\ref{fig:gc-aspp}.
+
+% \begin{figure}[htbp]
+% \centering
+% \includegraphics[width=0.9\linewidth]{figure2.png}
+% \caption{Architecture of the GC-ASPP module.}
+% \label{fig:gc-aspp}
+% \end{figure}
+
+The GC-ASPP module first applies a $1\times1$ convolution to the input feature map to reduce the channel dimension. It then extracts features through multiple atrous convolution branches with different dilation rates. Each branch corresponds to a receptive field of a different scale, capturing features of defects of various sizes. Let the input feature map be $\mathbf{F}\in\mathbb{R}^{H\times W\times C}$, where $H$, $W$, and $C$ denote the height, width, and number of channels, respectively. The $1\times1$ convolution is formulated in Equation~(\ref{eq:conv1x1}).
+
+\begin{equation}
+F_1 = \sigma\big(\text{BN}(W_{1\times 1} \ast F)\big)
+\label{eq:conv1x1}
+\end{equation}
+
+where $W_{1\times 1}$ denotes the $1\times1$ convolution kernel, $\ast$ represents the convolution operation, and $F_1$ is the resulting channel-reduced feature map. The outputs of the atrous convolution branches with different dilation rates are expressed in Equations~(\ref{eq:branch1}), (\ref{eq:branch2}), and (\ref{eq:branch3}).
+
+\begin{equation}
+F_2 = \sigma\Big(\text{BN}\big(W_{3\times 3}^{(6)} \ast F\big)\Big)
+\label{eq:branch1}
+\end{equation}
+
+\begin{equation}
+F_3 = \sigma\Big(\text{BN}\big(W_{3\times 3}^{(12)} \ast F\big)\Big)
+\label{eq:branch2}
+\end{equation}
+
+\begin{equation}
+F_4 = \sigma\Big(\text{BN}\big(W_{3\times 3}^{(18)} \ast F\big)\Big)
+\label{eq:branch3}
+\end{equation}
+
+where ${W_{3\times3}^{(r)}}$ denotes a $3\times3$ convolution kernel with dilation rate $r$, $\text{BN}$ represents batch normalization, and $\sigma$ denotes the ReLU activation function. $F_2$, $F_3$, and $F_4$ are the output features of the three atrous branches. By enlarging the dilation rate rather than the kernel size, the receptive field is expanded without additional computational cost, allowing broader context to be captured.
+
+In addition, a global average pooling (GAP) branch \cite{Jadon2025Grasp} is employed to extract global semantic information. The computation is given by Equation~(\ref{eq:gap}).
+
+\begin{equation}
+F_g(c) = \frac{1}{H \times W} \sum_{i=1}^{H} \sum_{j=1}^{W} F_c(i,j)
+\label{eq:gap}
+\end{equation}
+
+where $F_c(i,j)$ denotes the pixel value of the $c$-th channel at position $(i,j)$ of the input feature map, and $F_g(c)$ represents the corresponding channel descriptor after global average pooling. The pooled feature is then mapped through a $1\times1$ convolution and upsampled to match the original feature map size, as expressed in Equation~(\ref{eq:fg_up}).
+
+\begin{equation}
+F_g' = \text{Up}(\text{Conv}_{1\times1}(F_g))
+\label{eq:fg_up}
+\end{equation}
+
+where $\text{Conv}_{1\times1}$ denotes a $1\times1$ convolution and $\text{Up}$ represents the upsampling operation. The global context features are then fused with the atrous branch features through a residual connection, as expressed in Equation~(\ref{eq:residual_gc}).
+
+\begin{equation}
+F_i^{gc} = F_i + F'_g|_i, \quad i \in \{2,3,4\}
+\label{eq:residual_gc}
+\end{equation}
+
+where $F_i^{gc}$ denotes the fused feature map. This residual fusion strategy has two main advantages. First, it injects image-level semantic priors into each atrous branch without destroying the local texture and boundary responses extracted by dilated convolution. The atrous branches remain responsible for scale-specific defect perception, while the GAP branch provides global category and spatial distribution cues. Second, the residual addition preserves the original branch representation and shortens the information propagation path, which reduces feature degradation caused by direct replacement or excessive concatenation. In this way, GC-ASPP can maintain fine-grained boundary details while enhancing long-range contextual consistency, making it more suitable for steel surface defects with large scale variations and blurred contours. Finally, all branch outputs are concatenated along the channel dimension and passed through a $1\times1$ convolution to generate the enhanced multi-scale feature $F_\text{out}$. The process can be expressed mathematically in Equations~(\ref{eq:concat_gc}) and (\ref{eq:final_gc}).
+
+\begin{equation}
+F_\text{cat} = \text{Concat}(F_1, F_2^{gc}, F_3^{gc}, F_4^{gc})
+\label{eq:concat_gc}
+\end{equation}
+
+\begin{equation}
+F_\text{out} = \text{Conv}_{1\times1}(F_\text{cat})
+\label{eq:final_gc}
+\end{equation}
+
+Here, $\text{Concat}(\cdot)$ denotes concatenation along the channel dimension. Benefiting from this design, the output feature $F_\text{out}$ simultaneously preserves scale-specific defect responses and incorporates globally consistent semantic context, providing the decoder with a more informative bottleneck representation.
+
+\subsection{LW-CBAM}
+
+In industrial environments, some steel surface defects differ only marginally from the background in grayscale intensity and texture structure, exhibiting pronounced low-contrast characteristics. Such weak visual evidence makes it difficult for the network to separate defect regions from the background during feature extraction, thereby impairing defect localization and recognition. Moreover, conventional convolutional networks treat features across different channels and spatial locations equally, which restricts their capacity to highlight discriminative defect information. To strengthen the representation of critical features, a lightweight and adaptive attention mechanism, the Lightweight Weighted Convolutional Block Attention Module (LW-CBAM), is embedded in the encoding stage. LW-CBAM extends the conventional CBAM structure~\cite{Woo2018CBAM} with a learnable weight modulation mechanism that adaptively fuses channel and spatial attention. By dynamically adjusting the importance distribution across feature dimensions, the network focuses precisely on salient defect regions while suppressing redundant background responses, enhancing low-contrast defect representation at negligible additional computational cost.
+
+The LW-CBAM module comprises two sequential components, namely channel attention and spatial attention, whose outputs are modulated by learnable factors.
+%as illustrated in Figure~\ref{fig:lw-cbam}.
+
+% \begin{figure}[htbp]
+% \centering
+% \includegraphics[width=0.9\linewidth]{figure3.png}
+% \caption{Network architecture of LW-CBAM module.}
+% \label{fig:lw-cbam}
+% \end{figure}
+
+% \begin{figure}[htbp]
+% \centering
+% \includegraphics[width=0.9\linewidth]{figure4.png}
+% \caption{Architecture of the channel attention module.}
+% \label{fig：cam}
+% \end{figure}
+
+% \begin{figure}[htbp]
+% \centering
+% \includegraphics[width=0.9\linewidth]{figure5.png}
+% \caption{Architecture of the spatial attention module.}
+% \label{fig:sam}
+% \end{figure}
+
+The relative importance of channel and spatial attention is not fixed, as features at different network levels often require different emphasis. To address this, learnable weighting factors $\alpha$ and $\beta$ are introduced to dynamically adjust the optimal contribution of the two attention mechanisms, enabling adaptive feature enhancement.  
+
+In the channel attention module, global average pooling and global max pooling are first applied to the input feature map $\mathbf{F}$ to obtain intermediate feature vectors. These vectors are then fed into a shared multi-layer perceptron (MLP), and the channel attention weights are computed using a Sigmoid function. The resulting attention map is applied to the input feature map via element-wise multiplication to produce the channel-enhanced feature map. %The network architecture is shown in Figure ~\ref{fig：cam}. 
+The specific computations are formulated in Equations~(\ref{eq:channel_attention}) and~(\ref{eq:channel_output}).
+
+\begin{equation}
+\mathbf{M}_c(\mathbf{F}) = \sigma\big(\text{MLP}(\mathbf{F}_{avg}) + \text{MLP}(\mathbf{F}_{max})\big)
+\label{eq:channel_attention}
+\end{equation}
+
+\begin{equation}
+\mathbf{F}_c = \mathbf{M}_c(\mathbf{F}) \otimes \mathbf{F}
+\label{eq:channel_output}
+\end{equation}
+
+where $\mathbf{F}$ denotes the input feature map, $\sigma$ represents the Sigmoid activation function, $\mathbf{F}_{avg}$ and $\mathbf{F}_{max}$ are the intermediate feature vectors obtained by global average and max pooling, respectively, $\mathbf{M}_c(\mathbf{F})$ is the channel attention map, and $\otimes$ denotes element-wise multiplication.  
+
+A learnable channel modulation factor $\alpha$ is then applied to produce the weighted channel-enhanced feature, as expressed in Equation~(\ref{eq:alpha_blend}).
+
+\begin{equation}
+\mathbf{F}_1 = \mathbf{F} + \sigma(\alpha) \mathbf{F}_c
+\label{eq:alpha_blend}
+\end{equation}
+
+where $\alpha \in (0,1)$ is a learnable parameter, and $\mathbf{F}_1$ represents the final output of the channel attention module.  
+
+The spatial attention module takes the channel-enhanced feature $\mathbf{F}_1$ as input. Global average and max pooling are first applied along the channel dimension, and the resulting feature maps are concatenated, as expressed in Equation~(\ref{eq:spatial_concat}).
+
+\begin{equation}
+\mathbf{F}_s = [\mathbf{F}_{avg}^s; \mathbf{F}_{max}^s]
+\label{eq:spatial_concat}
+\end{equation}
+
+where $[;]$ denotes concatenation along the channel dimension, and $\mathbf{F}_s$ is the concatenated spatial feature map. A $7\times7$ convolution is then applied, followed by a Sigmoid function to produce the spatial attention map, which is applied to $\mathbf{F}_1$ via element-wise multiplication, as expressed in Equations~(\ref{eq:spatial_attention}) and~(\ref{eq:spatial_output}).
+
+\begin{equation}
+\mathbf{M}_s(\mathbf{F}_1) = \sigma\big(\text{Conv}_{7\times7}(\mathbf{F}_s)\big)
+\label{eq:spatial_attention}
+\end{equation}
+
+\begin{equation}
+\mathbf{F}_{sa} = \mathbf{M}_s(\mathbf{F}_1) \otimes \mathbf{F}_1
+\label{eq:spatial_output}
+\end{equation}
+
+where $\text{Conv}_{7\times7}$ denotes a $7\times7$ convolution, $\mathbf{M}_s$ represents the spatial attention map, and $\mathbf{F}_{sa}$ is the spatially enhanced feature.  
+
+Finally, a learnable modulation factor $\beta$ is applied to obtain the final output of the LW-CBAM module, as expressed in Equation~(\ref{eq:beta_blend}).
+
+\begin{equation}
+\mathbf{F}_{out} = \mathbf{F}_1 + \sigma(\beta) \mathbf{F}_{sa}
+\label{eq:beta_blend}
+\end{equation}
+
+where $\beta \in (0,1)$ is a learnable parameter, and $\mathbf{F}_{out}$ denotes the final output feature map of the LW-CBAM module.
+
+
+\subsection{BCD Loss}
+In steel surface defect segmentation tasks, the boundaries of certain defect regions are often blurred. This is mainly caused by surface reflections, the intrinsic shapes of defects, and the complex textured background, which make the boundaries between defects and background indistinct, resulting in unclear or missing segmentation regions \cite{Yang2025Steel}. To enhance the network's ability to capture object contours and fine-grained boundaries, while alleviating training difficulties caused by class imbalance and small-scale defect distribution, a Boundary-Constrained Dice (BCD) Loss is proposed. This loss function extends the traditional Dice Loss and Cross-Entropy Loss by introducing boundary constraints, jointly optimizing regional overlap, pixel-wise classification accuracy, and boundary structure information. Consequently, it effectively improves the model's perception of defect contours and fine structures, enabling more stable and precise segmentation in complex industrial scenarios.  
+
+The Cross-Entropy (CE) Loss measures the discrepancy between predicted probabilities and ground truth labels, and is defined as in Equation~(\ref{eq:ce_loss}).
+
+\begin{equation}
+L_{CE} = - \frac{1}{N} \sum_{i=1}^{N} \sum_{c=1}^{C} y_{ic} \log(p_{ic})
+\label{eq:ce_loss}
+\end{equation}
+
+where $N = H \times W$ is the number of pixels in the image, $H$ and $W$ denote the height and width of the prediction map, $y_{ic}$ is the one-hot encoded ground truth label, and $p_{ic}$ is the predicted probability of pixel $i$ belonging to class $c$. The predicted probability is computed via the Softmax function, as expressed in Equation~(\ref{eq:softmax}).
+
+\begin{equation}
+p_{ic} = \frac{e^{z_{ic}}}{\sum_{k=1}^{C} e^{z_{ik}}}
+\label{eq:softmax}
+\end{equation}
+
+where $z_{ic}$ is the logit output of the network. While CE Loss is sensitive to pixel-wise classification errors and ensures accurate discrimination between defect and background pixels, it is less effective in handling class imbalance and small-scale targets. To address these limitations, Dice Loss is introduced to provide region-level constraints by measuring the overlap between predicted and ground truth regions, as expressed in Equation~(\ref{eq:dice_loss}).
+
+\begin{equation}
+L_{Dice} = 1 - \frac{2 \sum_{i=1}^{N} p_i g_i + \epsilon}{\sum_{i=1}^{N} p_i + \sum_{i=1}^{N} g_i + \epsilon}
+\label{eq:dice_loss}
+\end{equation}
+
+where $p_i$ and $g_i$ denote the predicted probability and ground truth label for pixel $i$, and $\epsilon$ is a smoothing factor to avoid division by zero. Dice Loss directly optimizes the regional overlap, providing better robustness for small-scale and sparse classes.  
+
+To further enhance the model's sensitivity to defect boundary information, Boundary Loss is introduced to constrain the difference between the predicted and ground truth boundaries \cite{Bokhovkin2019Boundary}. First, the boundaries of the prediction map $P$ and ground truth $G$ are extracted using a gradient operator, as expressed in Equation~(\ref{eq:boundary_maps}).
+
+\begin{equation}
+\left\{
+\begin{aligned}
+B(P) &= |\nabla P| \\
+B(G) &= |\nabla G|
+\end{aligned}
+\right.
+\label{eq:boundary_maps}
+\end{equation}
+
+where $B(P)$ and $B(G)$ denote the predicted and ground truth boundary maps, and $\nabla$ represents the gradient operator. Boundary Loss\cite{Kervadec2019Boundary} is then defined as the L1 distance between these maps, as expressed in Equation~(\ref{eq:boundary_loss}).
+
+\begin{equation}
+L_{Boundary} = \frac{1}{N} \sum_{i=1}^{N} | B(P)_i - B(G)_i |
+\label{eq:boundary_loss}
+\end{equation}
+
+The Boundary Loss guides the network to focus on object contours, improving the clarity and structural integrity of the segmentation boundaries. Combining these three complementary terms, the proposed BCD Loss is formulated as in Equation~(\ref{eq:bcd_loss}).
+
+\begin{equation}
+L_{BCD} = \lambda_1 L_{CE} + \lambda_2 L_{Dice} + \lambda_3 L_{Boundary}
+\label{eq:bcd_loss}
+\end{equation}
+
+where $\lambda_1$, $\lambda_2$, and $\lambda_3$ are weighting coefficients set to 0.4, 0.4, and 0.2, respectively. By integrating region, pixel, and boundary information, BCD Loss significantly enhances the segmentation of small defects and regions with blurred boundaries, yielding more stable and precise results in complex industrial environments.
+
+
+
+\section{Experiments and Results Analysis}
+
+\subsection{Datasets}
+To provide a comprehensive evaluation of segmentation accuracy and cross-dataset robustness, experiments were conducted on the NEU-seg dataset and the SSDD (Severstal Steel Defect Detection) dataset. NEU-seg was used as the primary benchmark for training, hyper-parameter analysis, ablation experiments, and comparative evaluation, while SSDD was further adopted to assess the generalization capability of the proposed model under more complex industrial scenes.
+
+The NEU-seg dataset, provided by Northeastern University, contains 4,470 grayscale images with a resolution of $200\times200$ pixels. Each image is equipped with a pixel-level annotation mask. The dataset covers three representative steel surface defect categories, namely inclusions (In), patches (Pa), and scratches (Sc). The samples are approximately balanced across the three categories, which helps reduce the influence of severe class imbalance and provides a reliable benchmark for evaluating semantic segmentation algorithms.
+
+The SSDD dataset is derived from the Severstal steel defect detection task and reflects more diverse production conditions. It contains 6,666 images with pixel-level annotations for four defect categories: scratches (Sc), inclusions (In), patches (Pa), and rolled-in scale (RS). The class distribution is highly imbalanced, with 897 scratch samples, 247 inclusion samples, 5,150 patch samples, and 801 rolled-in scale samples, corresponding to 13.46\%, 3.71\%, 77.26\%, and 12.02\% of the total samples, respectively. In addition, SSDD images have a higher resolution of $1600\times256$ pixels and more complex defect morphologies. Therefore, this dataset is suitable for testing the robustness of the model in challenging scenarios with low contrast, dense defects, and uneven category distribution.
+
+For both datasets, the images were randomly divided into training, validation, and test sets at a ratio of 7:2:1. The training set was used for network optimization, the validation set for hyper-parameter selection and model checkpoint determination, and the test set for final quantitative and qualitative evaluation.
+
+\subsection{Evaluation Metrics}
+To comprehensively evaluate the accuracy, robustness, and computational efficiency of different segmentation methods, this study adopts mean Average Precision (mAP), mean Intersection over Union (mIoU), mean Dice coefficient (mDice), model parameter count (Params), and computational complexity (GFLOPs) as evaluation metrics.
+
+The mean Average Precision (mAP) is used to reflect the overall prediction capability of the model over all categories, with the threshold set to 0.5. The mean Intersection over Union (mIoU) measures the overlap between predicted segmentation regions and ground-truth masks. It is computed as the ratio of the intersection area to the union area and then averaged over all classes. The calculation of mAP (denoted as $P_{mA}$) and mIoU (denoted as $M_{IoU}$) is expressed in Equations~(\ref{eq:mAP}) and (\ref{eq:mIoU}):
+
+\begin{equation}
+P_{mA} = \frac{1}{k+1} \sum_{i=0}^{k} \frac{p_{ii}}{\sum_{j=0}^{k} p_{ij}}
+\label{eq:mAP}
+\end{equation}
+
+\begin{equation}
+M_{IoU} = \frac{1}{k+1} \sum_{i=0}^{k} \frac{p_{ii}}{\sum_{j=0}^{k} p_{ij} + \sum_{j=0}^{k} p_{ji} - p_{ii}}
+\label{eq:mIoU}
+\end{equation}
+
+Here, $k$ represents the total number of predicted classes; $p_{ii}$ denotes the number of pixels correctly predicted as class $i$; $p_{ij}$ is the number of pixels whose true label is $i$ but are incorrectly predicted as class $j$; and $p_{ji}$ indicates the number of pixels whose true label is $j$ but are incorrectly predicted as class $i$.
+
+The Dice coefficient is a set similarity metric that evaluates the consistency between the predicted mask and the ground-truth mask. A higher Dice value indicates better region overlap. For a single class, the Dice coefficient is defined as in Equation~(\ref{eq:dice}).
+
+\begin{equation}
+Dice(X,Y) = \frac{2|X \cap Y|}{|X| + |Y|} = \frac{\sum_{i=1}^{N} p_i g_i}{\sum_{i=1}^{N} p_i^2 + \sum_{i=1}^{N} g_i^2}
+\label{eq:dice}
+\end{equation}
+
+where $|X|$ and $|Y|$ denote the total number of pixels in the predicted set $X$ and ground-truth set $Y$, respectively, and $|X \cap Y|$ represents the number of overlapping pixels between them. Here, $N$ denotes the total number of pixels, $g_i$ is the ground-truth label for pixel $i$, and $p_i$ is the predicted value for pixel $i$. The mean Dice coefficient (mDice), averaged across all $K$ classes present in the dataset, is given by Equation~(\ref{eq:mDice}).
+
+\begin{equation}
+mDice = \frac{1}{K} \sum_{i=1}^{K} Dice(X_i, Y_i)
+\label{eq:mDice}
+\end{equation}
+
+Params denotes the number of trainable parameters in the model, reflecting the storage cost and model scale. GFLOPs denotes the number of floating-point operations required for a single forward pass, which is used to measure computational complexity. A model with higher segmentation accuracy and moderate Params/GFLOPs is more favorable for industrial deployment.
+
+\subsection{Baselines}
+To verify the effectiveness of the proposed GCLW-Net, two groups of representative baselines were selected for comparison. The first group consists of classic semantic segmentation and instance segmentation methods, including U-Net, YOLOv8n-seg, YOLOv12n-seg, DeepLabV3+, U-Net++, SegNet, PSPNet, BiSeNet, and OCNet. These methods cover encoder-decoder structures, pyramid pooling networks, real-time segmentation networks, and YOLO-based segmentation frameworks, providing a broad comparison with widely used segmentation paradigms.
+
+The second group consists of recent advanced methods, including RAAWC-UNet, Improved-Deeplabv3+, TAG-Net, and SCNet. These approaches introduce attention mechanisms, feature enhancement strategies, or improved encoder-decoder designs and therefore serve as strong competitors for evaluating the state-of-the-art performance of the proposed method. For a fair comparison, all models were evaluated using the same data division and the same metric definitions. The reported Params and GFLOPs were calculated under the corresponding input resolution of each dataset.
+
+\subsection{Experimental Settings}
+All experiments were conducted on a workstation equipped with an Intel Core i5-12600KF CPU, 32 GB RAM, 2 TB storage, and an NVIDIA GeForce RTX 4070 GPU with 12 GB video memory. The software environment included Windows 10, Python 3.9, PyTorch 1.13.0, CUDA 11.6, cuDNN 7.6, OpenCV 3.4.2, and NumPy 1.21.5.
+
+The proposed model was trained using stochastic gradient descent (SGD). The initial learning rate was set to 0.01, the momentum to 0.9, and the weight decay to 0.0001. The batch size was set to 8, and all models were trained for 100 epochs. For NEU-seg, the input image size was $200\times200$. For SSDD, the original resolution was retained for generalization evaluation. Unless otherwise specified, bilinear interpolation was used in the decoder stage of U-Net and GCLW-Net to reduce checkerboard artifacts and improve training stability. The overall experimental configuration is summarized in Table~\ref{tab:parameters}.
+
+\begin{table}[htbp]
+\caption{Experimental parameter configuration}
+\label{tab:parameters}
+\centering
+\begin{tabular}{cc}
+\toprule
+Parameter & Value \\
+\midrule
+Momentum & 0.9 \\
+Weight Decay & 0.0001 \\
+Initial Learning Rate & 0.01 \\
+Batch Size & 8 \\
+Input Image Size & $200\times200$ \\
+Optimizer & SGD \\
+Epochs & 100 \\
+Bilinear Interpolation & True \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Hyper-parameter Experiments}
+In the classical U-Net architecture, decoder upsampling is commonly implemented by transposed convolution. However, transposed convolution may introduce checkerboard artifacts and increase computational overhead. Therefore, bilinear\cite{Sahoo2025Bilinear} interpolation followed by convolutional feature fusion was adopted in this study. To verify its effectiveness, a controlled experiment was conducted on the NEU-seg dataset by changing only the upsampling strategy while keeping other training settings unchanged. The results are shown in Table~\ref{tab:bilinear}.
+
+\begin{table}[htbp]
+\caption{Comparison of different upsampling strategies on the NEU-seg dataset}
+\label{tab:bilinear}
+\centering
+\begin{tabular}{cccccc}
+\toprule
+Bilinear & mIoU(\%) & mAP(\%) & mDice(\%) & GFLOPs & Params($10^6$) \\
+\midrule
+False & 74.9 & 84.6 & 90.9 & 31.1 & 21.9 \\
+True & \textbf{77.0} & \textbf{87.3} & \textbf{91.8} & \textbf{24.5} & \textbf{17.3} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+As shown in Table~\ref{tab:bilinear}, replacing transposed convolution with bilinear interpolation improves mIoU, mAP, and mDice by 2.1\%, 2.7\%, and 0.9\%, respectively. Meanwhile, GFLOPs decrease from 31.1 to 24.5, and Params decrease from $21.9\times10^6$ to $17.3\times10^6$. These results indicate that bilinear interpolation not only improves segmentation performance but also reduces model complexity. Therefore, \texttt{Bilinear=True} was adopted in all subsequent experiments.
+
+The weighting coefficients of the proposed BCD Loss were also analyzed because they determine the relative contributions of pixel-wise classification, region overlap, and boundary constraints. As shown in Table~\ref{tab:bcd_weight}, using only CE and Dice terms improves the baseline, while introducing a moderate boundary weight further enhances the ability to delineate irregular defect contours. The setting $\lambda_1=0.4$, $\lambda_2=0.4$, and $\lambda_3=0.2$ achieves the best overall performance and is therefore used as the default configuration.
+
+\begin{table}[htbp]
+\caption{Hyper-parameter analysis of BCD Loss weights on the NEU-seg dataset}
+\label{tab:bcd_weight}
+\centering
+\begin{tabular}{cccccc}
+\toprule
+$\lambda_1$ & $\lambda_2$ & $\lambda_3$ & mIoU(\%) & mAP(\%) & mDice(\%) \\
+\midrule
+0.5 & 0.5 & 0.0 & 78.5 & 90.1 & 92.9 \\
+0.5 & 0.3 & 0.2 & 79.1 & 90.7 & 93.4 \\
+0.4 & 0.4 & 0.2 & \textbf{79.8} & \textbf{91.2} & \textbf{93.9} \\
+0.3 & 0.4 & 0.3 & 79.3 & 90.8 & 93.5 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Ablation Experiments}
+To systematically analyze the contribution of each proposed component, ablation experiments were conducted on the NEU-seg dataset. The experiments include overall module combination analysis, internal ablation of GC-ASPP, dilation-rate combination analysis, internal ablation of LW-CBAM, and branch-level ablation of BCD Loss. All ablation experiments follow the same training and evaluation settings described in Section~4.4.
+
+Table~\ref{tab:module_ablation} presents the overall contribution of GC-ASPP, LW-CBAM, and BCD Loss. The baseline U-Net obtains 77.0\% mIoU, 87.3\% mAP, and 91.8\% mDice. Introducing GC-ASPP alone improves mIoU to 78.8\%, demonstrating that multi-scale contextual aggregation enhances the representation of steel defects with different sizes and shapes. Adding LW-CBAM alone increases mAP to 89.4\%, indicating that adaptive attention helps suppress background interference and emphasize discriminative defect regions. When only BCD Loss is used, the model achieves 79.8\% mIoU and 93.9\% mDice, confirming the effectiveness of joint pixel-level, region-level, and boundary-level optimization.
+
+\begin{table}[htbp]
+\caption{Ablation study of improved modules on the NEU-seg dataset}
+\label{tab:module_ablation}
+\centering
+\begin{tabular}{cccccccc}
+\toprule
+GC-ASPP & LW-CBAM & BCD Loss & mIoU(\%) & mAP(\%) & mDice(\%) & GFLOPs & Params($10^6$) \\
+\midrule
+-- & -- & -- & 77.0 & 87.3 & 91.8 & 24.5 & 17.3 \\
+\checkmark & -- & -- & 78.8 & 88.4 & 93.2 & 25.6 & 25.7 \\
+-- & \checkmark & -- & 78.0 & 89.4 & 92.1 & 24.5 & 17.3 \\
+-- & -- & \checkmark & 79.8 & 91.2 & 93.9 & 24.5 & 17.3 \\
+\checkmark & \checkmark & -- & 79.5 & 89.4 & 93.5 & 25.6 & 25.7 \\
+\checkmark & \checkmark & \checkmark & \textbf{81.5} & \textbf{91.3} & \textbf{94.7} & 25.6 & 25.7 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+When GC-ASPP and LW-CBAM are used together, mIoU increases to 79.5\%, showing that multi-scale feature extraction and adaptive attention are complementary. After further introducing BCD Loss, the complete GCLW-Net achieves the best performance, with 81.5\% mIoU, 91.3\% mAP, and 94.7\% mDice. Compared with the baseline, the improvements are 4.5\%, 4.0\%, and 2.9\%, respectively. Although Params increase from $17.3\times10^6$ to $25.7\times10^6$, GFLOPs increase by only 1.1, demonstrating a favorable accuracy-complexity trade-off.
+
+To verify the necessity of the global average pooling (GAP) branch in GC-ASPP, an internal ablation experiment was conducted, as shown in Table~\ref{tab:gcaspp_internal}. Compared with the ASPP variant without the GAP branch, the complete GC-ASPP improves mIoU from 78.1\% to 78.8\%, mAP from 87.9\% to 88.4\%, and mDice from 92.7\% to 93.2\%. This improvement indicates that the GAP branch provides image-level semantic guidance, compensating for the limited global modeling ability of atrous convolution.
+
+\begin{table}[htbp]
+\caption{Internal ablation of GC-ASPP on the NEU-seg dataset}
+\label{tab:gcaspp_internal}
+\centering
+\begin{tabular}{cccccc}
+\toprule
+Method & GAP Branch & mIoU(\%) & mAP(\%) & mDice(\%) & GFLOPs \\
+\midrule
+U-Net & -- & 77.0 & 87.3 & 91.8 & 24.5 \\
+ASPP & -- & 78.1 & 87.9 & 92.7 & 25.3 \\
+GC-ASPP & \checkmark & \textbf{78.8} & \textbf{88.4} & \textbf{93.2} & 25.6 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+To further determine the dilation-rate configuration of GC-ASPP, several representative combinations were evaluated under the same network architecture, as shown in Table~\ref{tab:gcaspp_dilation}. The dilation rates control the effective receptive field of the atrous convolution branches. Small rates preserve local edge and texture details but provide limited contextual coverage, whereas excessively large rates may introduce sparse sampling and gridding effects, weakening the continuity of defect boundaries. Since NEU-seg images have a resolution of $200\times200$ pixels and steel defects contain both slender scratches and larger patch-like regions, the dilation rates should cover local, middle-range, and relatively global contexts while maintaining sufficient sampling density. Therefore, the combinations were selected from compact, moderate, and large receptive-field settings.
+
+\begin{table}[htbp]
+\caption{Ablation study of dilation-rate combinations in GC-ASPP on the NEU-seg dataset}
+\label{tab:gcaspp_dilation}
+\centering
+\begin{tabular}{ccccc}
+\toprule
+Dilation Rates & mIoU(\%) & mAP(\%) & mDice(\%) & GFLOPs \\
+\midrule
+$(2,4,6)$ & 78.1 & 87.8 & 92.6 & 25.6 \\
+$(3,6,9)$ & 78.4 & 88.1 & 92.9 & 25.6 \\
+$(6,12,18)$ & \textbf{78.8} & \textbf{88.4} & \textbf{93.2} & 25.6 \\
+$(12,24,36)$ & 78.2 & 87.9 & 92.7 & 25.6 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The results show that the $(6,12,18)$ setting achieves the best performance among all tested combinations. Compared with smaller rates such as $(2,4,6)$ and $(3,6,9)$, it provides a larger receptive field and captures broader contextual dependencies, which is beneficial for distinguishing defects from complex steel textures. Compared with $(12,24,36)$, it avoids overly sparse sampling and better preserves boundary continuity. Theoretically, the effective kernel size of a $3\times3$ atrous convolution is $k_{\mathrm{eff}}=k+(k-1)(r-1)=2r+1$, so the rates 6, 12, and 18 correspond to effective receptive fields of $13\times13$, $25\times25$, and $37\times37$, respectively. This configuration forms a progressive multi-scale receptive-field hierarchy, covering local contours, medium-scale defect structures, and broader semantic context. Therefore, $(6,12,18)$ is adopted as the default dilation-rate setting for GC-ASPP.
+
+Table~\ref{tab:lwcbam_internal} analyzes the learnable modulation factors $\alpha$ and $\beta$ in LW-CBAM. Standard CBAM improves the baseline to 77.6\% mIoU and 88.8\% mAP, showing the benefit of channel-spatial attention. When learnable weighting factors are introduced, LW-CBAM further improves mIoU to 78.0\% and mAP to 89.4\%. The results show that fixed attention fusion is not always optimal for different feature levels, while $\alpha$ and $\beta$ enable adaptive regulation of channel and spatial attention responses.
+
+\begin{table}[htbp]
+\caption{Internal ablation of LW-CBAM on the NEU-seg dataset}
+\label{tab:lwcbam_internal}
+\centering
+\begin{tabular}{cccccc}
+\toprule
+Method & Learnable $\alpha/\beta$ & mIoU(\%) & mAP(\%) & mDice(\%) & Params($10^6$) \\
+\midrule
+U-Net & -- & 77.0 & 87.3 & 91.8 & 17.3 \\
+CBAM & -- & 77.6 & 88.8 & 91.9 & 17.3 \\
+LW-CBAM & \checkmark & \textbf{78.0} & \textbf{89.4} & \textbf{92.1} & 17.3 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The branch-level contribution of BCD Loss is reported in Table~\ref{tab:bcd_branch}. CE Loss provides stable pixel-wise classification but is less effective for sparse defect regions. Dice Loss improves region overlap, and Boundary Loss enhances contour perception. Among two-branch combinations, Dice+Boundary performs better than CE+Boundary in mIoU, while CE+Dice provides a strong balance between classification and region consistency. The complete BCD Loss achieves the highest results on all metrics, indicating that the three branches provide complementary supervision.
+
+\begin{table}[htbp]
+\caption{Branch-level ablation of BCD Loss on the NEU-seg dataset}
+\label{tab:bcd_branch}
+\centering
+\begin{tabular}{ccccccc}
+\toprule
+CE & Dice & Boundary & mIoU(\%) & mAP(\%) & mDice(\%) & Remark \\
+\midrule
+\checkmark & -- & -- & 77.0 & 87.3 & 91.8 & Pixel-wise \\
+-- & \checkmark & -- & 77.8 & 88.6 & 92.4 & Region overlap \\
+-- & -- & \checkmark & 78.0 & 89.1 & 92.2 & Boundary constraint \\
+\checkmark & \checkmark & -- & 78.5 & 90.1 & 92.9 & Region+pixel \\
+\checkmark & -- & \checkmark & 78.3 & 89.6 & 92.6 & Boundary+pixel \\
+-- & \checkmark & \checkmark & 78.9 & 90.5 & 93.1 & Boundary+region \\
+\checkmark & \checkmark & \checkmark & \textbf{79.8} & \textbf{91.2} & \textbf{93.9} & BCD Loss \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The visual ablation results in Figure~\ref{fig6} further support the quantitative conclusions. Compared with the original U-Net, the proposed model produces more complete masks for inclusions, patches, and scratches, and the predicted contours are more consistent with the ground-truth annotations. Figure~\ref{fig7} compares the training curves of U-Net and GCLW-Net on NEU-seg. GCLW-Net converges faster and maintains higher mIoU and more stable accuracy throughout training. The confusion matrices in Figure~\ref{fig8} also show that the proposed model increases diagonal classification accuracy and reduces inter-class confusion. In particular, the recognition accuracy of inclusion defects increases from 80.82\% to 88.57\%, demonstrating stronger discrimination of low-contrast defects.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\linewidth]{fig2.jpg}
+\caption{Visual ablation comparison on the NEU-seg dataset. Red, blue, and green denote inclusion, patch, and scratch defects, respectively.}
+\label{fig6}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\linewidth]{fig3.jpg}
+\caption{Training performance comparison of U-Net and GCLW-Net on the NEU-seg dataset. The red line represents U-Net, and the blue line represents GCLW-Net. (a) mIoU comparison; (b) Accuracy comparison.}
+\label{fig7}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\linewidth]{fig4.jpg}
+\caption{Confusion matrices of U-Net and GCLW-Net on the NEU-seg dataset. (a) U-Net; (b) GCLW-Net.}
+\label{fig8}
+\end{figure}
+
+\subsection{Comparative Experiments}
+To validate the effectiveness and competitiveness of the proposed GCLW-Net, comparative experiments were conducted on both NEU-seg and SSDD. On the NEU-seg dataset, the proposed method was compared with representative classic segmentation methods, including U-Net, YOLOv8n-seg, YOLOv12n-seg, DeepLabV3+, U-Net++, SegNet, PSPNet, BiSeNet, and OCNet, as well as recent advanced segmentation approaches, including RAAWC-UNet, Improved-Deeplabv3+, TAG-Net, and SCNet. The unified comparison results are reported in Table~\ref{tab:neuseg_comparison}.
+
+\begin{table}[htbp]
+\caption{Experimental results of different segmentation methods on the NEU-seg dataset}
+\label{tab:neuseg_comparison}
+\centering
+\begin{tabular}{cccccc}
+\toprule
+Algorithm & mIoU(\%) & mAP(\%) & mDice(\%) & GFLOPs & Params($10^6$) \\
+\midrule
+U-Net \cite{Jiao2020Refined}& 77.0 & 87.3 & 91.8 & 24.5 & 17.3 \\
+YOLOv8n-seg \cite{Varghese2024YOLOv8}& 77.6 & 67.9 & 30.3 & 12.6 & 6.7 \\
+YOLOv12n-seg \cite{Tian2025YOLOv12}& 78.2 & 74.3 & 31.4 & 9.8 & 5.9 \\
+DeepLabV3+ \cite{Chen2018Encoder}& 78.5 & 89.0 & 93.3 & 7.8 & 40.4 \\
+U-Net++ \cite{Zhou2018UNet}& 79.3 & 89.4 & 93.0 & 24.3 & 9.8 \\
+SegNet\cite{Badrinarayanan2017SegNet} & 78.1 & 90.1 & 92.4 & 24.3 & 29.5 \\
+PSPNet \cite{Zhao2017Pyramid}& 61.1 & 77.3 & 85.3 & 4.6 & 46.6 \\
+BiSeNet\cite{Yu2018BiSeNet} & 72.8 & 85.0 & 90.7 & 2.4 & 13.7 \\
+OCNet \cite{Yuan2018OCNet}& 52.9 & 60.8 & 81.1 & 4.3 & 37.3 \\
+RAAWC-UNet\cite{Wang2024RAAWC} & 78.8 & 89.6 & 93.0 & 28.9 & 33.3 \\
+Improved-Deeplabv3+\cite{Guclu2024Improved} & 78.3 & 89.5 & 91.7 & 18.7 & 38.4 \\
+TAG-Net\cite{Jeong2025TAG} & 80.3 & 89.5 & 92.8 & 29.1 & 32.2 \\
+SCNet\cite{Lin2025SCNet} & 77.4 & 87.7 & 90.2 & 31.9 & 22.5 \\
+\midrule
+\textbf{Ours} & \textbf{81.5} & \textbf{91.3} & \textbf{94.7} & 25.6 & 25.7 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+As shown in Table~\ref{tab:neuseg_comparison}, GCLW-Net achieves the best segmentation performance on NEU-seg among all compared methods, with 81.5\% mIoU, 91.3\% mAP, and 94.7\% mDice. Compared with U-Net++, which is the strongest classic baseline in terms of mIoU, the proposed method improves mIoU, mAP, and mDice by 2.2\%, 1.9\%, and 1.7\%, respectively. Compared with TAG-Net, the strongest advanced competitor in mIoU, GCLW-Net further improves mIoU by 1.2\%. These results indicate that the proposed method achieves more accurate and balanced segmentation performance without relying on an excessively large parameter scale.
+
+Figure~\ref{fig99} provides qualitative comparisons of segmentation results on the NEU-seg dataset. As illustrated, classic segmentation methods tend to produce false positives in background regions, discontinuous defect boundaries, or incomplete segmentation of small defects. Although advanced methods improve over classic baselines, they still suffer from minor false positives, jagged boundaries, or incomplete segmentation in challenging samples. In contrast, GCLW-Net suppresses background noise more effectively and generates masks with clearer contours and better structural completeness, demonstrating superior visual quality in both defect localization and boundary delineation.
+
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\linewidth,height=0.9\textheight, keepaspectratio]{fig5.jpg}
+\caption{Visualization results of segmentation algorithms on the NEU-seg dataset. Red, blue, and green denote inclusion, patch, and scratch defects, respectively.}
+\label{fig99}
+\end{figure}
+
+To further examine cross-dataset generalization, comparative experiments were conducted on the SSDD dataset. Compared with NEU-seg, SSDD contains higher-resolution images, more complex backgrounds, and a much more imbalanced category distribution. The unified comparison results are reported in Table~\ref{tab:ssdd_comparison}.
+
+\begin{table}[htbp]
+\caption{Experimental results of different segmentation methods on the SSDD dataset}
+\label{tab:ssdd_comparison}
+\centering
+\begin{tabular}{cccccc}
+\toprule
+Method & mIoU(\%) & mAP(\%) & mDice(\%) & GFLOPs & Params($10^6$) \\
+\midrule
+U-Net\cite{Jiao2020Refined} & 47.9 & 60.0 & 57.5 & 251.3 & 17.3 \\
+YOLOv8n-seg \cite{Varghese2024YOLOv8}& 47.5 & 65.2 & 32.1 & 123.4 & 6.7 \\
+YOLOv12n-seg \cite{Tian2025YOLOv12}& 48.9 & 71.6 & 33.5 & 97.2 & 5.9 \\
+DeepLabV3+\cite{Chen2018Encoder} & 49.3 & 66.8 & 70.2 & 72.5 & 40.4 \\
+U-Net++\cite{Zhou2018UNet} & 50.7 & 72.3 & 71.8 & 250.1 & 9.8 \\
+SegNet\cite{Badrinarayanan2017SegNet} & 48.5 & 73.5 & 70.9 & 245.1 & 29.5 \\
+PSPNet\cite{Zhao2017Pyramid} & 39.8 & 60.2 & 62.7 & 43.6 & 46.6 \\
+BiSeNet\cite{Yu2018BiSeNet} & 45.1 & 68.7 & 67.4 & 22.9 & 13.7 \\
+OCNet\cite{Yuan2018OCNet} & 37.2 & 55.3 & 59.6 & 41.8 & 37.3 \\
+RAAWC-UNet\cite{Wang2024RAAWC} & 56.4 & 74.1 & 72.5 & 286.3 & 33.3 \\
+Improved-Deeplabv3+\cite{Guclu2024Improved} & 53.7 & 73.8 & 71.2 & 178.5 & 38.4 \\
+TAG-Net\cite{Jeong2025TAG} & 57.6 & 74.0 & 72.9 & 293.2 & 32.2 \\
+SCNet\cite{Lin2025SCNet} & 50.2 & 71.2 & 67.9 & 231.25 & 22.5 \\
+\midrule
+\textbf{Ours} & \textbf{61.8} & \textbf{86.5} & \textbf{74.7} & 264.8 & 25.7 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+As shown in Table~\ref{tab:ssdd_comparison}, GCLW-Net consistently achieves the best performance on SSDD, with 61.8\% mIoU, 86.5\% mAP, and 74.7\% mDice. Among classic methods, GCLW-Net exceeds U-Net++ by 11.1\% in mIoU, 14.2\% in mAP, and 2.9\% in mDice. Compared with U-Net, which has a similar encoder-decoder structure, the improvements reach 13.9\%, 26.5\%, and 17.2\%, respectively. Among advanced methods, GCLW-Net surpasses TAG-Net by 4.2\% in mIoU and 1.8\% in mDice, and improves mAP by 12.4\% compared with RAAWC-UNet. These gains show that GC-ASPP, LW-CBAM, and BCD Loss jointly improve the model's ability to segment defects under complex texture interference and severe class imbalance, demonstrating strong generalization to challenging industrial data.
+
+The training curves in Figure~\ref{fig10} show that GCLW-Net converges faster and remains more stable than U-Net on SSDD. The visualization results in Figure~\ref{fig11} further confirm that the proposed method reduces missed detections and false detections while producing more complete and coherent defect masks. Overall, the comparative results on NEU-seg and SSDD consistently verify the robustness and practical applicability of GCLW-Net.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\linewidth]{fig7.jpg}
+\caption{Performance comparison of U-Net and GCLW-Net on the SSDD dataset. The red curve corresponds to U-Net, and the blue curve represents GCLW-Net.(a) mIoU comparison; (b) Accuracy comparison.}
+\label{fig10}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\linewidth]{fig11.jpg}
+\caption{Visualization comparison of U-Net and GCLW-Net on the SSDD dataset. Red, green, blue, and light blue denote inclusion, patch, scratch, and rolled-in scale defects, respectively.}
+\label{fig11}
+\end{figure}
+
+\section{Conclusion and Discussion}\label{sec5}
+
+\subsection{Conclusion}\label{sec5.1}
+This paper presents GCLW-Net, a global context and boundary-aware semantic segmentation framework for steel surface defect inspection. By integrating GC-ASPP, LW-CBAM, and BCD Loss, the proposed method addresses four key bottlenecks in industrial defect segmentation: insufficient multi-scale receptive-field modeling, weak discriminative visual feature representation, limited boundary gradient sensitivity, and inadequate optimization for sparse and imbalanced defect regions. The scientific contribution lies in establishing a collaborative optimization paradigm that couples multi-scale contextual encoding, adaptive feature recalibration, and boundary-aware supervision within a unified U-Net architecture.
+
+Extensive experiments on NEU-seg and SSDD demonstrate that GCLW-Net achieves state-of-the-art segmentation performance among the compared methods. The core advantage of the proposed model is its ability to simultaneously improve multi-scale defect localization, low-contrast defect discrimination, and boundary delineation under complex industrial textures. GC-ASPP enhances multi-scale contextual perception through a progressive receptive-field hierarchy and global-local residual fusion; LW-CBAM strengthens defect-background separability via learnable channel-spatial attention modulation; and BCD Loss improves contour recovery and minority-class segmentation through joint pixel-level, region-level, and boundary-level supervision. These components make GCLW-Net particularly suitable for hot-rolled strip inspection scenarios involving inclusions, patches, scratches, and other defects with large scale variations, ambiguous boundaries, and severe class imbalance.
+
+The observed performance differences can be attributed to intrinsic modeling mechanisms rather than dataset-specific tuning alone. Compared with classic encoder-decoder networks, GCLW-Net benefits from richer contextual aggregation at the bottleneck, which reduces missed detections for medium- and large-scale defects. Compared with attention-enhanced or boundary-aware competitors, the proposed method achieves more balanced improvements because LW-CBAM suppresses background false positives while BCD Loss explicitly constrains boundary gradients, leading to cleaner masks and higher mAP. The substantial gain on SSDD further indicates that the improvements generalize to high-resolution images with imbalanced categories, where many baseline methods fail to maintain stable region overlap and contour integrity. Ablation results confirm that the performance gains are not dominated by a single component; instead, they arise from the complementary effects of receptive-field expansion, adaptive feature selection, and multi-objective loss optimization.
+
+Despite these advantages, GCLW-Net still has limitations. The introduction of GC-ASPP and LW-CBAM increases parameter count and computational cost relative to vanilla U-Net, which may limit direct deployment on resource-constrained edge devices. In addition, repeated downsampling in the encoder may weaken the representation of ultra-small or pinpoint defects, and performance may degrade under severe domain shifts caused by illumination variation, dust, water mist, or changes in imaging conditions across production lines. Therefore, although the model is effective for offline inspection, benchmark evaluation, and high-accuracy quality analysis, its real-time industrial deployment requires careful consideration of hardware capability, line speed, and environmental stability.
+
+From an application perspective, GCLW-Net offers significant value for automated surface inspection systems, defect grading, process diagnosis, and quantitative quality assessment in steel manufacturing. Its high boundary fidelity and low false-positive tendency are beneficial for reducing manual re-inspection workload and supporting downstream decision-making. However, practical deployment is constrained by processing latency, edge computing resources, camera stability, and cross-line generalization requirements. In summary, this study provides a theoretically grounded and experimentally validated segmentation framework for steel surface defects, demonstrating that collaborative optimization of context modeling, attention-based feature selection, and boundary-aware loss design is an effective route toward robust industrial semantic segmentation.
+
+\subsection{Discussion}\label{sec5.2}
+Although GCLW-Net achieves promising segmentation performance, several directions remain open for further improvement.
+
+First, model lightweighting and knowledge distillation should be investigated to bridge the gap between accuracy and deployment efficiency. Future work can explore channel pruning, quantization-aware training, and teacher-student distillation to compress GCLW-Net into a real-time inference model while preserving boundary precision and multi-scale perception capability. This is particularly important for online inspection on high-speed rolling lines, where inference latency and hardware cost are critical constraints.
+
+Second, dedicated enhancement strategies are needed for ultra-micro defect feature modeling. Potential solutions include high-resolution feature preservation modules, shallow-layer detail injection, or boundary-sensitive skip connections to mitigate information loss caused by encoder downsampling. Such designs may further improve the detection and segmentation of extremely small defects that occupy only a few pixels in industrial images.
+
+Third, cross-domain adaptive segmentation deserves systematic exploration. Steel production lines differ in illumination, surface reflectance, camera configuration, and defect appearance, which may cause performance degradation when a model trained on one dataset is directly applied to another domain. Domain adaptation, self-training, and contrastive alignment strategies can be incorporated to improve robustness across plants, production stages, and imaging systems.
+
+Fourth, few-shot industrial defect segmentation is a practically relevant direction. Annotating pixel-level defect masks in real factories is costly, and some rare defect categories have limited samples. Prototype learning, meta-learning, and prompt-based segmentation frameworks may enable GCLW-Net to generalize to new defect types with only a small number of labeled examples, thereby improving scalability in real manufacturing environments.
+
+Overall, the proposed framework establishes a solid baseline for context-aware and boundary-sensitive steel defect segmentation. Future research should focus on making the model lighter, more sensitive to ultra-small defects, and more adaptable to heterogeneous industrial domains with limited supervision.
+
+
+
+
+ \section{Disclosures}
+ The authors declare no conflicts of interest.
+
+\section{Data Availability Statement} 
+The model code and experiments of this study can be found by referring to \href{https://github.com/zhouhy666/GCLW-UNet}{GCLW-Net}. 
+The datasets used and/or analyzed in this study are publicly available from the following open-source repositories:
+
+\begin{itemize}
+    \item \textbf{NEU-seg Dataset}: Available at GitHub \href{https://github.com/DHW-Master/NEU_Seg}{NEU-Seg}.
+    \item \textbf{SSDD (Severstal Steel Defect Detection) Dataset}: Available at Kaggle \href{https://www.kaggle.com/c/severstal-steel-defect-detection}{Severstal Steel Defect Detection}.
+\end{itemize}
+
+All datasets are publicly accessible and include comprehensive documentation, detailed descriptions, and usage guidelines to facilitate accurate understanding and effective utilization by the research community. The source code used in this work is available from the corresponding author upon reasonable request.
+
+\section{Funding}
+This work was supported in part by the Graduate Innovation Project of Chongqing University of Science and Technology (Grant No. YKJCX2520928), and the University-Academy Cooperation Project between Chongqing Universities and the Chinese Academy of Sciences (Grant No. HZ2021015).
+
+ \section{Acknowledgments}\label{sec5}
+The authors acknowledge the use of ChatGPT (developed by OpenAI) for language
+ polishing and grammar improvement during the manuscript preparation process.
+
+\clearpage
+
+
+\begin{thebibliography}{99}
+\bibitem{Liu2025Global} Liu, G., Chu, M., Gong, R., Zheng, Z.: Global attention module and cascade fusion network for steel surface defect detection. Pattern Recognit. 158, 110979 (2025). https://doi.org/10.1016/j.patcog.2024.110979
+
+\bibitem{Luo2024CDDNet} Luo, Q., Li, B., Su, J., Yang, C., Gui, W., Silvén, O., Liu, L.: CDDNet: Camouflaged defect detection network for steel surface. IEEE Trans. Instrum. Meas. 73, 1–13 (2024). https://doi.org/10.1109/TIM.2023.3336452
+
+\bibitem{Liu2024Deep} Liu, J., Xie, G., Wang, J., Li, S., Wang, C., Zheng, F., Jin, Y.: Deep industrial image anomaly detection: A survey. Mach. Intell. Res. 21(1), 104–135 (2024). https://doi.org/10.1007/s11633-023-1459-z
+
+\bibitem{Minaee2022Image} Minaee, S., Boykov, Y., Porikli, F., Plaza, A., Kehtarnavaz, N., Terzopoulos, D.: Image segmentation using deep learning: A survey. IEEE Trans. Pattern Anal. Mach. Intell. 44(7), 3523–3542 (2022). https://doi.org/10.1109/TPAMI.2021.3059968
+
+\bibitem{Xie2021SegFormer} Xie, E., Wang, W., Yu, Z., Anandkumar, A., Alvarez, J.M., Luo, P.: SegFormer: Simple and efficient design for semantic segmentation with transformers. In: Advances in Neural Information Processing Systems (NeurIPS), vol. 34, pp. 12077–12090 (2021)
+
+\bibitem{Li2024Transformer} Li, X., Ding, H., Yuan, H., Zhang, W., Pang, J., Cheng, G., Chen, K., Liu, Z., Loy, C.C.: Transformer-based visual segmentation: A survey. IEEE Trans. Pattern Anal. Mach. Intell. 46(12), 10138–10163 (2024). https://doi.org/10.1109/TPAMI.2024.3434373
+
+\bibitem{Jiang2022Review} Jiang, P., Ergu, D., Liu, F., Cai, Y., Ma, B.: A review of YOLO algorithm developments. Procedia Comput. Sci. 199, 1066–1073 (2022). https://doi.org/10.1016/j.procs.2022.01.135
+
+\bibitem{Terven2023Comprehensive} Terven, J., Córdova-Esparza, D.M., Romero-González, J.A.: A comprehensive review of YOLO architectures in computer vision: from YOLOv1 to YOLOv8 and YOLO-NAS. Mach. Learn. Knowl. Extr. 5, 1680–1716 (2023). https://doi.org/10.3390/make5040083
+
+\bibitem{Tian2025Faster} Tian, J., Lee, S., Kang, K.: Faster R-CNN in Healthcare and Disease Detection: A Comprehensive Review. In: 2025 International Conference on Electronics, Information, and Communication (ICEIC), Osaka, Japan, pp. 1–6 (2025). https://doi.org/10.1109/ICEIC62134.2025.9786542
+
+\bibitem{Zhao2024DETRs} Zhao, Y., Lv, W., Xu, S., Wei, J., Wang, G., Dang, Q., Liu, Y., Chen, J.: DETRs beat YOLOs on real-time object detection. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), pp. 16965–16974 (2024)
+
+\bibitem{Hou2024Salience} Hou, X., Liu, M., Zhang, S., Wei, P., Chen, B.: Salience DETR: Enhancing detection transformer with hierarchical salience filtering refinement. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), pp. 17574–17583 (2024)
+
+\bibitem{Zhang2023Dense} Zhang, S., Wang, X., Wang, J., Pang, J., Lyu, C., Zhang, W., Luo, P., Chen, K.: Dense distinct query for end-to-end object detection. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), pp. 7329–7338 (2023)
+
+\bibitem{Wu2025Efficient} Wu, C., He, T.: Efficient minor defects detection on steel surface via res-attention and position encoding. Vis. Comput. 41, 2171–2185 (2025). https://doi.org/10.1007/s00371-024-03583-0
+
+\bibitem{Ashrafi2025Steel} Ashrafi, S., Teymouri, S., Etaati, S., et al.: Steel surface defect detection and segmentation using deep neural networks. Results Eng. 25, 103972 (2025). https://doi.org/10.1016/j.rineng.2025.103972
+
+\bibitem{Long2015Fully} Long, J., Shelhamer, E., Darrell, T.: Fully convolutional networks for semantic segmentation. In: Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, pp. 3431–3440 (2015)
+
+\bibitem{Chen2018DeepLab} Chen, L.-C., Papandreou, G., Kokkinos, I., Murphy, K., Yuille, A.L.: DeepLab: semantic image segmentation with deep convolutional nets, atrous convolution, and fully connected CRFs. IEEE Trans. Pattern Anal. Mach. Intell. 40, 834–848 (2018). https://doi.org/10.1109/TPAMI.2017.2699184
+
+\bibitem{Zhang2023Semantic} Zhang, Z., Wang, W., Tian, X.: Semantic segmentation of metal surface defects and corresponding strategies. IEEE Trans. Instrum. Meas. 72, 1–13 (2023). https://doi.org/10.1109/TIM.2023.3282301
+
+\bibitem{Huang2025Multiscale} Huang, J., et al.: Multiscale adaptive prototype transformer network for few-shot strip steel surface defect segmentation. IEEE Trans. Instrum. Meas. 74, 1–14 (2025). https://doi.org/10.1109/TIM.2025.3550227
+
+\bibitem{Zhao2025Cross} Zhao, L., Zhang, Y., Duan, J., et al.: Cross-supervised contrastive learning domain adaptation network for steel defect segmentation. Adv. Eng. Inform. 64, 102964 (2025). https://doi.org/10.1016/j.aei.2024.102964
+
+\bibitem{Shan2025RSM} Shan, Z., Haoyan, H., Zhu, C., Du, S., Jing, H., Haibin, W.: RSM-YOLOv11: Lightweight Steel Surface Defect Segmentation Algorithm Research Based on YOLOv11 Improvement. IEEE Access 13, 111681–111698 (2025). https://doi.org/10.1109/ACCESS.2025.3552683
+
+\bibitem{Lei2025BENet} Lei, X., Chen, Z., Yu, Z., et al.: BENet: boundary-enhanced network for real-time semantic segmentation. Vis. Comput. 41, 229–241 (2025). https://doi.org/10.1007/s00371-024-03320-7
+
+\bibitem{Krithika2022Review} Krithika Alias AnbuDevi, M., Suganthi, K.: Review of semantic segmentation of medical images using modified architectures of UNET. Diagnostics 12, 3064 (2022). https://doi.org/10.3390/diagnostics12123064
+
+\bibitem{Kato2024Adaptive} Kato, S., Hotta, K.: Adaptive t-vMF dice loss: an effective expansion of dice loss for medical image segmentation. Comput. Biol. Med. 168, 107695 (2024). https://doi.org/10.1016/j.compbiomed.2023.107695
+
+\bibitem{Mao2023Cross} Mao, A., Mohri, M., Zhong, Y.: Cross-Entropy Loss Functions: Theoretical Analysis and Applications. In: Proceedings of the 40th International Conference on Machine Learning, PMLR 202, 23803–23828 (2023). https://proceedings.mlr.press/v202/mao23b.html
+
+\bibitem{Ma2025ELA} Ma, R., Chen, J., Feng, Y., Zhou, Z., Xie, J.: ELA-YOLO: an efficient method with linear attention for steel surface defect detection during manufacturing. Adv. Eng. Inform. 65, 103377 (2025). https://doi.org/10.1016/j.aei.2025.103377
+
+\bibitem{Abian2025Atrous} Abian, A.I., Raiaan, M.A.K., Jonkman, M., Islam, S.M.S., Azam, S.: Atrous spatial pyramid pooling with swin transformer model for classification of gastrointestinal tract diseases from videos with enhanced explainability. Eng. Appl. Artif. Intell. 150, 110656 (2025). https://doi.org/10.1016/j.engappai.2025.110656
+
+\bibitem{Jadon2025Grasp} Jadon, R., Budda, R., Gollapalli, V.S.T., et al.: Grasp Pose Detection and Feature Extraction Using FHK-GPD and Global Average Pooling in Robotic Pick-and-Place Systems. In: 2025 9th International Conference on Inventive Systems and Control (ICISC), IEEE, pp. 28–34 (2025)
+
+\bibitem{Woo2018CBAM} Woo, S., Park, J., Lee, J.Y., et al.: CBAM: Convolutional block attention module. In: Proceedings of the European Conference on Computer Vision (ECCV), pp. 3–19 (2018)
+
+\bibitem{Yang2025Steel} Yang, Z., Liu, Y.: A steel surface defect detection method based on improved RetinaNet. Sci. Rep. 15, 10.1038/s41598-025-88527-8 (2025). https://doi.org/10.1038/s41598-025-88527-8
+
+
+\bibitem{Bokhovkin2019Boundary} Bokhovkin, A., Burnaev, E.: Boundary loss for remote sensing imagery semantic segmentation. In: International Symposium on Neural Networks, Springer, Cham, pp. 388–401 (2019)
+
+\bibitem{Kervadec2019Boundary} Kervadec, H., Bouchtiba, J., Desrosiers, C., Granger, E., Dolz, J., Ben Ayed, I.: Boundary loss for highly unbalanced segmentation. In: Proceedings of The 2nd International Conference on Medical Imaging with Deep Learning, PMLR 102, 285–296 (2019). https://proceedings.mlr.press/v102/kervadec19a.html
+
+\bibitem{Sahoo2025Bilinear} Sahoo, M.P., Sridhar, R.: Bilinear interpolation augmented deep feature extraction with an improved remora optimization-based deep convolutional neural network for skin lesion classification. Int. J. Image Graph., 2750024 (2025). https://doi.org/10.1142/S0219467827500240
+
+\bibitem{Jiao2020Refined} Jiao, L., Huo, L., Hu, C., Tang, P.: Refined UNet: UNet-Based Refinement Network for Cloud and Shadow Precise Segmentation. Remote Sens. 12, 2001 (2020). https://doi.org/10.3390/rs12122001
+
+\bibitem{Varghese2024YOLOv8} Varghese, R., Sambath, M.: YOLOv8: a novel object detection algorithm with enhanced performance and robustness. In: 2024 International Conference on Advances in Data Engineering and Intelligent Computing Systems (ADICS), pp. 1–6 (2024). https://doi.org/10.1109/adics58448.2024.10533619
+
+\bibitem{Tian2025YOLOv12} Tian, Y., Ye, Q., Doermann, D.: YOLOv12: Attention-centric real-time object detectors. arXiv preprint arXiv:2502.12524 (2025). https://doi.org/10.48550/arXiv.2502.12524
+
+\bibitem{Chen2018Encoder} Chen, L.C., Zhu, Y., Papandreou, G., Schroff, F., Adam, H.: Encoder-decoder with atrous separable convolution for semantic image segmentation. In: Proceedings of the European Conference on Computer Vision (ECCV), pp. 801–818 (2018). https://arxiv.org/pdf/1802.02611.pdf
+
+\bibitem{Zhou2018UNet} Zhou, Z., Rahman Siddiquee, M.M., Tajbakhsh, N., Liang, J.: UNet++: A nested U-Net architecture for medical image segmentation. In: Lecture Notes in Computer Science, vol. 11045, pp. 3–18. Springer, Cham (2018). https://doi.org/10.1007/978-3-030-00889-5\_1
+
+\bibitem{Badrinarayanan2017SegNet} Badrinarayanan, V., Kendall, A., Cipolla, R.: SegNet: A deep convolutional encoder-decoder architecture for image segmentation. IEEE Trans. Pattern Anal. Mach. Intell. 39, 2481–2495 (2017). https://doi.org/10.1109/TPAMI.2016.2644615
+
+\bibitem{Zhao2017Pyramid} Zhao, H., Shi, J., Qi, X., Wang, X., Jia, J.: Pyramid scene parsing network. In: Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), pp. 2881–2890 (2017). https://arxiv.org/abs/1612.01105
+
+\bibitem{Yu2018BiSeNet} Yu, C., Wang, J., Peng, C., Gao, C., Yu, G., Sang, N.: BiSeNet: Bilateral segmentation network for real-time semantic segmentation. In: Proceedings of the European Conference on Computer Vision (ECCV), pp. 325–341 (2018). https://arxiv.org/abs/1808.00897
+
+\bibitem{Yuan2018OCNet} Yuan, Y., Huang, L., Guo, J., Zhang, C., Chen, X., Wang, J.: OCNet: Object context network for scene parsing. arXiv preprint arXiv:1809.00916 (2018). https://arxiv.org/abs/1809.00916
+
+\bibitem{Wang2024RAAWC} Wang, J., Jia, J., Zhang, Y., Wang, H., Zhu, S.: RAAWC-UNet: an apple leaf and disease segmentation method based on residual attention and atrous spatial pyramid pooling improved UNet with weight compression loss. Front. Plant Sci. 15, 1305358 (2024). https://doi.org/10.3389/fpls.2024.1305358
+
+\bibitem{Guclu2024Improved} Güçlü, E., Aydın, İ., Akın, E.: Improved Deeplabv3+ Based Steel Surface Defect Segmentation. In: 2024 ASU International Conference in Emerging Technologies for Sustainability and Intelligent Systems (ICETSIS), Manama, Bahrain, pp. 609–613 (2024). https://doi.org/10.1109/ICETSIS61505.2024.10459666
+
+\bibitem{Jeong2025TAG} Jeong, S., Song, J., Lee, S.J.: TAG-Net: Triple Attention Guided Network for Inspecting Surface Defects on Steel Products. Int. J. Control Autom. Syst. 23, 441–448 (2025). https://doi.org/10.1007/s12555-024-0550-8
+
+\bibitem{Lin2025SCNet} Lin, C., Zou, C., Xu, H.: SCNet: A Dual-Branch Network for Strong Noisy Image Denoising Based on Swin Transformer and ConvNeXt. Comput. Anim. Virtual Worlds 36, e70030 (2025). https://doi.org/10.1002/cav.70030
+
+
+
+\end{thebibliography}
+
+
+
+
+\end{document}
